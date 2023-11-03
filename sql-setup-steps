@@ -1,0 +1,77 @@
+"
+// command to install mysql in mac
+- brew install mysql
+
+// Command to start/stop mysql 
+- brew services start mysql
+- brew services stop mysql
+
+// Command to secure the connection
+- mysql_secure_installation
+
+// Command to access the database
+- mysql -u root -p, where root is username
+
+// Query to create database and user 
+- CREATE DATABASE mydb;
+- CREATE USER 'myuser'@'localhost' IDENTIFIED BY 'mypassword';
+- GRANT ALL PRIVILEGES ON mydb.* TO 'myuser'@'localhost';
+- FLUSH PRIVILEGES;
+
+// Query to delete databse
+- DROP DATABASE mydb;
+
+// Query to show database list
+- SHOW DATABASES
+
+
+
+CREATE TABLE User
+(
+    UserID INT AUTO_INCREMENT PRIMARY KEY,
+    FirstName VARCHAR(255) NOT NULL,
+    LastName VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) UNIQUE NOT NULL,
+    PhoneNumber VARCHAR(15),
+    PasswordEncrypted VARCHAR(255) NOT NULL,
+    isEmployee BOOLEAN NOT NULL,
+    isActive BOOLEAN NOT NULL,
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UpdatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    DepartmentID INT,
+    FOREIGN KEY (DepartmentID) REFERENCES Department(DepartmentID)
+);
+
+
+CREATE TABLE Department
+(
+    DepartmentID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255) NOT NULL,
+    Description TEXT,
+    isActive BOOLEAN NOT NULL,
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UpdatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE QuestionAnswer
+(
+    QuestionID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT NOT NULL,
+    Title VARCHAR(255) NOT NULL,
+    Description TEXT,
+    Media_URL VARCHAR(255),
+    DepartmentID INT NOT NULL,
+    QuestionExpiryTime DATETIME,
+    IsOpened BOOLEAN NOT NULL DEFAULT 0,
+    AnswerExpiryTime DATETIME,
+    Answer TEXT,
+    Status VARCHAR(20),
+    isActive BOOLEAN NOT NULL,
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UpdatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (UserID) REFERENCES User(UserID),
+    FOREIGN KEY (DepartmentID) REFERENCES Department(DepartmentID)
+);
+
+"
